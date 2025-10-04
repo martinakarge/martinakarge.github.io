@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #0a0a2e; /* Deep, dark blue – like a starry night sky */
+            background-color: white; /* Changed to white */
             color: #e0e0e0; /* Light gray for easy reading on dark bg */
             text-align: center;
             padding: 20px;
