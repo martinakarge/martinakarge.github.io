@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,17 +7,18 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #0a0a2e; /* Deep, dark blue – like a starry night sky */
+            color: #e0e0e0; /* Light gray for easy reading on dark bg */
             text-align: center;
             padding: 20px;
             margin: 0;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #87CEEB; /* Sky blue accent – fresh and uplifting */
+            color: #0a0a2e; /* Dark text for contrast */
             padding: 40px 20px;
             margin-bottom: 30px;
+            border-radius: 10px; /* Soft edges for that gentle hug */
         }
         h1 {
             font-size: 2.5em;
@@ -27,10 +29,10 @@
             margin-top: 10px;
         }
         form {
-            background: white;
+            background: #1a1a3a; /* Slightly lighter dark blue for form depth */
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             max-width: 400px;
             margin: 0 auto;
             display: flex;
@@ -41,16 +43,21 @@
         input[type="text"] {
             flex: 1;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #87CEEB; /* Sky blue border for accent pop */
             border-radius: 5px;
             font-size: 1.1em;
             text-align: center;
             min-width: 0;
+            background: #0a0a2e;
+            color: #e0e0e0;
+        }
+        input[type="text"]::placeholder {
+            color: #a0a0a0; /* Subtle placeholder on dark */
         }
         button {
             padding: 12px 20px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: #87CEEB; /* Sky blue button – inviting click */
+            color: #0a0a2e; /* Dark text for readability */
             border: none;
             border-radius: 5px;
             font-size: 1.1em;
@@ -58,40 +65,50 @@
             white-space: nowrap;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #5dade2; /* Lighter sky blue on hover – warm glow */
         }
         .results {
             margin-top: 30px;
             text-align: left;
             max-width: 600px;
             margin: 30px auto;
-            background: white;
+            background: #1a1a3a; /* Dark blue tint for results card */
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             display: none;
+            color: #e0e0e0; /* Light text inside */
+        }
+        .results h2 {
+            color: #87CEEB; /* Sky blue header for that accent lift */
         }
         .rec {
-            background: #e8f5e8;
+            background: #2a2a5a; /* Muted sky blue tint for rec backgrounds */
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #87CEEB; /* Sky blue left border accent */
+        }
+        .rec h3 {
+            color: #87CEEB; /* Sky blue for rec titles – pops with positivity */
         }
         .google-link {
-            color: #4CAF50;
+            color: #87CEEB;
             text-decoration: none;
             font-weight: bold;
         }
         .google-link:hover {
             text-decoration: underline;
         }
+        p[style*="italic"] {
+            color: #a0a0a0 !important; /* Softer gray for the italic note */
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to New In Town! 🌟</h1>
-        <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and skip – all with a local's honest vibe.</p>
+        <h1>Welcome, New In Town! 🌟</h1>
+        <p class="subtitle">Drop your zip code and let's uncover the best spots to eat, sip, stay, and skip – all with a local's honest vibe.</p>
     </header>
     
     <form id="zipForm">
@@ -121,7 +138,7 @@
     </div>
 
     <script>
-        const GOOGLE_API_KEY = 'goes here'; // Swap in your free key from console.cloud.google.com!
+        const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // Swap in your free key from console.cloud.google.com!
 
         document.getElementById('zipForm').addEventListener('submit', async function(e) {
             e.preventDefault();
