@@ -90,8 +90,8 @@
 </head>
 <body>
     <header>
-        <h1>Welcome, New In Town! 🌟</h1>
-        <p class="subtitle">Drop your zip code and let's uncover the best spots to eat, sip, stay, and skip – all with a local's honest vibe.</p>
+        <h1>Welcome to New In Town! 🌟</h1>
+        <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and skip – all with a local's honest vibe.</p>
     </header>
     
     <form id="zipForm">
