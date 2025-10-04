@@ -121,7 +121,7 @@
     </div>
 
     <script>
-        const GOOGLE_API_KEY = 'AIzaSyCrv_o5ugZVVqM0jWqZa42nZvFWCObYJZY'; // Swap in your free key from console.cloud.google.com!
+        const GOOGLE_API_KEY = 'goes here'; // Swap in your free key from console.cloud.google.com!
 
         document.getElementById('zipForm').addEventListener('submit', async function(e) {
             e.preventDefault();
