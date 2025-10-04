@@ -111,15 +111,30 @@
     </div>
 
     <script>
-        document.getElementById('zipForm').addEventListener('submit', function(e) {
+        document.getElementById('zipForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const zip = document.getElementById('zipCode').value;
-            if (zip.length === 5 && /^\d{5}$/.test(zip)) {
-                document.getElementById('cityName').textContent = zip; // Placeholder – swap for real lookup later
+            const zip = document.getElementById('zipCode').value.trim();
+            if (zip.length !== 5 || !/^\d{5}$/.test(zip)) {
+                alert('Hey friend, zip codes are 5 digits – try again? 😊');
+                return;
+            }
+            try {
+                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (!response.ok) {
+                    throw new Error('Invalid ZIP');
+                }
+                const data = await response.json();
+                const place = data.places?.[0];
+                if (place) {
+                    document.getElementById('cityName').textContent = `${place['place name']}, ${place.state}`;
+                } else {
+                    document.getElementById('cityName').textContent = zip;
+                }
                 document.getElementById('results').style.display = 'block';
                 document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-            } else {
-                alert('Hey friend, zip codes are 5 digits – try again? 😊');
+            } catch (error) {
+                alert(`Whoops, that zip's being mysterious – make sure it's a US spot? Let's try another! 🌍`);
+                console.error(error);
             }
         });
     </script>
