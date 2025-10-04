@@ -46,7 +46,7 @@
             border-radius: 5px;
             font-size: 1.1em;
             text-align: center;
-            min-width: 0; /* Helps flex play nice */
+            min-width: 0;
         }
         button {
             padding: 12px 20px;
@@ -56,7 +56,7 @@
             border-radius: 5px;
             font-size: 1.1em;
             cursor: pointer;
-            white-space: nowrap; /* Keeps "Explore!" on one line */
+            white-space: nowrap;
         }
         button:hover {
             background-color: #45a049;
@@ -79,6 +79,14 @@
             border-radius: 5px;
             border-left: 4px solid #4CAF50;
         }
+        .google-link {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .google-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +102,7 @@
     
     <div id="results" class="results">
         <h2>Your Fresh Start in <span id="cityName"></span>!</h2>
-        <div class="rec">
+        <div id="eatRec" class="rec">
             <h3>🍽️ Eat: Cozy Corner Café</h3>
             <p>Fluffy pancakes and killer lattes – the kind of spot that feels like home from bite one. Pro tip: Go for the avocado toast upgrade.</p>
         </div>
@@ -114,6 +122,8 @@
     </div>
 
     <script>
+        const GOOGLE_API_KEY = 'AIzaSyCrv_o5ugZVVqM0jWqZa42nZvFWCObYJZY'; // Swap in your free key from console.cloud.google.com!
+
         document.getElementById('zipForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const zip = document.getElementById('zipCode').value.trim();
@@ -122,17 +132,81 @@
                 return;
             }
             try {
-                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
-                if (!response.ok) {
+                // First, get city and lat/lng from zip
+                const zipResponse = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (!zipResponse.ok) {
                     throw new Error('Invalid ZIP');
                 }
-                const data = await response.json();
-                const place = data.places?.[0];
-                if (place) {
-                    document.getElementById('cityName').textContent = `${place['place name']}, ${place.state}`;
-                } else {
-                    document.getElementById('cityName').textContent = zip;
+                const zipData = await zipResponse.json();
+                const place = zipData.places?.[0];
+                const cityName = place ? `${place['place name']}, ${place.state}` : zip;
+                document.getElementById('cityName').textContent = cityName;
+                if (!place) {
+                    throw new Error('No location data');
                 }
+                const lat = place.latitude;
+                const lng = place.longitude;
+
+                // Now, fetch a random high-rated restaurant via Google Places Nearby Search
+                let restaurantHtml = ''; // Fallback to placeholder if API skips
+                if (GOOGLE_API_KEY && GOOGLE_API_KEY !== 'YOUR_GOOGLE_API_KEY_HERE') {
+                    try {
+                        const searchBody = {
+                            includedType: 'restaurant',
+                            maxResultCount: 20,
+                            locationRestriction: {
+                                circle: {
+                                    center: { latitude: parseFloat(lat), longitude: parseFloat(lng) },
+                                    radius: 5000.0 // 5km radius for local flavor
+                                }
+                            }
+                        };
+                        const searchResponse = await fetch('https://places.googleapis.com/v1/places:searchNearby', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Goog-Api-Key': GOOGLE_API_KEY,
+                                'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.rating,places.websiteUri,places.id'
+                            },
+                            body: JSON.stringify(searchBody)
+                        });
+                        if (searchResponse.ok) {
+                            const searchData = await searchResponse.json();
+                            const places = searchData.places || [];
+                            const highRated = places.filter(p => p.rating && p.rating >= 4.0);
+                            if (highRated.length > 0) {
+                                const randomPick = highRated[Math.floor(Math.random() * highRated.length)];
+                                const name = randomPick.displayName?.text || 'A Tasty Spot';
+                                const address = randomPick.formattedAddress || 'Near you in town';
+                                const rating = randomPick.rating || 0;
+                                const website = randomPick.websiteUri ? `<br><a href="${randomPick.websiteUri}" target="_blank" class="google-link">Website</a>` : '';
+                                restaurantHtml = `
+                                    <h3>🍽️ Eat: ${name}</h3>
+                                    <p>Locals love it for the fresh twists and warm welcomes – a stellar first meal! (Rating: ${rating}/5 ⭐) | ${address}${website}<br>
+                                    <a href="https://www.google.com/maps/place/?q=place_id:${randomPick.id}" target="_blank" class="google-link">Map it!</a> – Pro tip: Grab a window seat and let the flavors unfold.</p>
+                                `;
+                            } else if (places.length > 0) {
+                                // Fallback to top pick
+                                const randomPick = places[Math.floor(Math.random() * places.length)];
+                                const name = randomPick.displayName?.text || 'A Tasty Spot';
+                                const address = randomPick.formattedAddress || 'Near you in town';
+                                const rating = randomPick.rating || 0;
+                                restaurantHtml = `
+                                    <h3>🍽️ Eat: ${name}</h3>
+                                    <p>A reliable crowd-pleaser to kick off your adventures! (Rating: ${rating}/5 ⭐) | ${address}<br>
+                                    <a href="https://www.google.com/maps/place/?q=place_id:${randomPick.id}" target="_blank" class="google-link">Map it!</a></p>
+                                `;
+                            }
+                        }
+                    } catch (googleError) {
+                        console.error('Google Places fetch hiccup:', googleError);
+                        // Keep placeholder – no drama
+                    }
+                }
+                if (restaurantHtml) {
+                    document.getElementById('eatRec').innerHTML = restaurantHtml;
+                }
+
                 document.getElementById('results').style.display = 'block';
                 document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
             } catch (error) {
