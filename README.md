@@ -1,4 +1,3 @@
-# martinakarge.github.io
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,25 +34,29 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             max-width: 400px;
             margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
         }
         input[type="text"] {
-            width: 70%;
+            flex: 1;
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-size: 1.1em;
             text-align: center;
+            min-width: 0; /* Helps flex play nice */
         }
         button {
-            width: 25%;
-            padding: 12px;
+            padding: 12px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 1.1em;
             cursor: pointer;
-            margin-left: 5%;
+            white-space: nowrap; /* Keeps "Explore!" on one line */
         }
         button:hover {
             background-color: #45a049;
