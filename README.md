@@ -1,5 +1,4 @@
 # martinakarge.github.io
-newintown
 <!DOCTYPE html>
 <html lang="en">
 <head>
