@@ -218,6 +218,10 @@
 
 
 <div id="mainApp" style="display:none">
+    <div id="userInfo" class="user-info" style="display:none">
+        <span id="userName"></span>
+        <button id="signOutBtn" style="margin-left:10px; background:#fff; color:#0a0a2e; border:1px solid #87CEEB; border-radius:4px; cursor:pointer;">Sign Out</button>
+    </div>
     <header>
         <h1>Welcome Back! 🌟</h1>
         <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and even a gentle nudge on what to skip – all with a local's honest, sunny vibe.</p>
