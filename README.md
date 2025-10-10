@@ -216,39 +216,38 @@
     <button id="guestBtn" class="entry-btn">Continue as Guest 😊</button>
 </div>
 
-<header>
-            <h1>Welcome Back! 🌟</h1>
-            <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and even a gentle nudge on what to skip – all with a local's honest, sunny vibe.</p>
-        </header>
-        
-<button id="saveBtn" onclick="saveSuggestions()">💾 Save These Gems for Later!</button>
-        
-<form id="zipForm">
-            <input type="text" id="zipCode" placeholder="Enter ZIP code (e.g., 90210)" maxlength="5" required>
-            <button type="submit">Explore!</button>
-        </form>
-        
-<div id="results" class="results">
-            <h2>Your guide to <span id="cityName"></span>!</h2>
-            <div id="savedMsg" class="saved-msg"></div>
-            <div id="eatRec" class="rec">
-                <h3>🍽️ Eat: Cozy Corner Café</h3>
-                <p>Fluffy pancakes and killer lattes – the kind of spot that feels like home from bite one. Pro tip: Go for the avocado toast upgrade.</p>
-            </div>
-            <div id="drinkRec" class="rec">
-                <h3>🍸 Drink: Sunset Speakeasy</h3>
-                <p>Craft cocktails with a view that'll make you forget you're new here. Skip the tourist traps – this one's a hidden gem.</p>
-            </div>
-            <div id="stayRec" class="rec">
-                <h3>🏨 Stay: The Wander Inn</h3>
-                <p>Comfy beds, quirky decor, and breakfast in bed. Affordable bliss for your first nights.</p>
-            </div>
-            <div id="avoidRec" class="rec avoid">
-                <h3>🚫 Skip: That Overhyped Chain</h3>
-                <p>Honest heads-up: Crowded, meh service, and prices that sting. Save your energy for the real local flavor!</p>
-            </div>
+
+<div id="mainApp" style="display:none">
+    <header>
+        <h1>Welcome Back! 🌟</h1>
+        <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and even a gentle nudge on what to skip – all with a local's honest, sunny vibe.</p>
+    </header>
+    <button id="saveBtn" onclick="saveSuggestions()">💾 Save These Gems for Later!</button>
+    <form id="zipForm">
+        <input type="text" id="zipCode" placeholder="Enter ZIP code (e.g., 90210)" maxlength="5" required>
+        <button type="submit">Explore!</button>
+    </form>
+    <div id="results" class="results">
+        <h2>Your guide to <span id="cityName"></span>!</h2>
+        <div id="savedMsg" class="saved-msg"></div>
+        <div id="eatRec" class="rec">
+            <h3>🍽️ Eat: Cozy Corner Café</h3>
+            <p>Fluffy pancakes and killer lattes – the kind of spot that feels like home from bite one. Pro tip: Go for the avocado toast upgrade.</p>
+        </div>
+        <div id="drinkRec" class="rec">
+            <h3>🍸 Drink: Sunset Speakeasy</h3>
+            <p>Craft cocktails with a view that'll make you forget you're new here. Skip the tourist traps – this one's a hidden gem.</p>
+        </div>
+        <div id="stayRec" class="rec">
+            <h3>🏨 Stay: The Wander Inn</h3>
+            <p>Comfy beds, quirky decor, and breakfast in bed. Affordable bliss for your first nights.</p>
+        </div>
+        <div id="avoidRec" class="rec avoid">
+            <h3>🚫 Skip: That Overhyped Chain</h3>
+            <p>Honest heads-up: Crowded, meh service, and prices that sting. Save your energy for the real local flavor!</p>
         </div>
     </div>
+</div>
 
  <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/index.min.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
