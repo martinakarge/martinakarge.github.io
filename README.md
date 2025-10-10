@@ -196,9 +196,9 @@
          style="display: none;">
     </div>
 
-    <div id="globalHeader">
-        <a href="javascript:void(0)" onclick="goHome()">New in Town 🌟</a>
-    </div>
+<div id="globalHeader">
+    <a href="javascript:void(0)" onclick="goHome()">New in Town 🌟</a>
+</div>
 
 <div id="entryScreen">
     <h1>Welcome to NewInTown.io! 🌟</h1>
@@ -216,19 +216,19 @@
     <button id="guestBtn" class="entry-btn">Continue as Guest 😊</button>
 </div>
 
-        <header>
+<header>
             <h1>Welcome Back! 🌟</h1>
             <p class="subtitle">Drop your ZIP Code and let's uncover the best spots to eat, sip, stay, and even a gentle nudge on what to skip – all with a local's honest, sunny vibe.</p>
         </header>
         
-        <button id="saveBtn" onclick="saveSuggestions()">💾 Save These Gems for Later!</button>
+<button id="saveBtn" onclick="saveSuggestions()">💾 Save These Gems for Later!</button>
         
-        <form id="zipForm">
+<form id="zipForm">
             <input type="text" id="zipCode" placeholder="Enter ZIP code (e.g., 90210)" maxlength="5" required>
             <button type="submit">Explore!</button>
         </form>
         
-        <div id="results" class="results">
+<div id="results" class="results">
             <h2>Your guide to <span id="cityName"></span>!</h2>
             <div id="savedMsg" class="saved-msg"></div>
             <div id="eatRec" class="rec">
@@ -250,9 +250,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/index.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script>
+ <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/index.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
         const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // Swap in your free key from console.cloud.google.com!
         let currentSuggestions = {};
         let isSignedIn = false;
