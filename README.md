@@ -189,6 +189,13 @@
     </style>
 </head>
 <body>
+    <div id="g_id_onload"
+         data-client_id="992990668217-km90mi8ec514f68po4235lmkar57oeu1.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false"
+         style="display: none;">
+    </div>
+
     <div id="globalHeader">
         <a href="javascript:void(0)" onclick="goHome()">New in Town 🌟</a>
     </div>
@@ -196,7 +203,7 @@
     <div id="entryScreen">
         <h1>Welcome to NewInTown.io! 🌟</h1>
         <p>Ready to uncover local gems? Choose your way in – sign in to save your faves, or dive right in as a guest!</p>
-        <button id="googleSignInBtn" class="entry-btn" style="display: none;">Sign in with Google 😊</button>
+        <button id="googleSignInBtn" class="entry-btn">Sign in with Google 😊</button>
         <br>
         <button id="guestBtn" class="entry-btn">Continue as Guest 😊</button>
     </div>
@@ -240,34 +247,21 @@
         </div>
     </div>
 
-    <script src="https://apis.google.com/js/platform.js?onload=initGoogleSignIn" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/index.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-        const GOOGLE_CLIENT_ID = '992990668217-km90mi8ec514f68po4235lmkar57oeu1.apps.googleusercontent.com';
         const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // Swap in your free key from console.cloud.google.com!
         let currentSuggestions = {};
         let isSignedIn = false;
         let currentUser = null;
 
-        function initGoogleSignIn() {
-            gapi.load('auth2', function() {
-                gapi.auth2.init({
-                    client_id: GOOGLE_CLIENT_ID
-                }).then(function() {
-                    const googleBtn = document.getElementById('googleSignInBtn');
-                    if (googleBtn) {
-                        googleBtn.style.display = 'inline-block';
-                        googleBtn.onclick = function(e) {
-                            e.preventDefault();
-                            var auth2 = gapi.auth2.getAuthInstance();
-                            auth2.signIn().then(onSignInAndProceed).catch(function(error) {
-                                console.error('Sign in error:', error);
-                            });
-                        };
-                    }
-                }).catch(function(error) {
-                    console.error('Auth2 init error:', error);
-                });
-            });
+        function handleCredentialResponse(response) {
+            if (response && response.credential) {
+                const profile = jwt_decode(response.credential);
+                onSignIn(profile);
+                document.getElementById('entryScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+            }
         }
 
         function goHome() {
@@ -282,20 +276,13 @@
             if (results) results.style.display = 'none';
         }
 
-        function onSignIn(googleUser) {
-            const profile = googleUser.getBasicProfile();
-            document.getElementById('userName').textContent = `Hi, ${profile.getName()}!`;
+        function onSignIn(profile) {
+            document.getElementById('userName').textContent = `Hi, ${profile.name}!`;
             document.getElementById('userInfo').style.display = 'block';
             isSignedIn = true;
-            currentUser = profile.getId();
+            currentUser = profile.sub;
             // Load saved suggestions if any
             loadSavedSuggestions();
-        }
-
-        function onSignInAndProceed(googleUser) {
-            onSignIn(googleUser);
-            document.getElementById('entryScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
         }
 
         function proceedAsGuest() {
@@ -306,22 +293,14 @@
         }
 
         function signOut() {
-            if (typeof gapi !== 'undefined' && gapi.auth2 && gapi.auth2.getAuthInstance) {
-                try {
-                    const auth2 = gapi.auth2.getAuthInstance();
-                    auth2.signOut().then(function () {
-                        updateSignOutState();
-                    }).catch(function(error) {
-                        console.error('Sign out error:', error);
-                        updateSignOutState();
-                    });
-                } catch (error) {
-                    console.error('Sign out error:', error);
-                    updateSignOutState();
-                }
-            } else {
-                updateSignOutState();
+            if (currentUser && typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.revoke(currentUser, function(revoked) {
+                    if (revoked.success) {
+                        console.log('Google access revoked');
+                    }
+                });
             }
+            updateSignOutState();
         }
 
         function updateSignOutState() {
@@ -334,8 +313,28 @@
         document.getElementById('signOutBtn').onclick = signOut;
         document.getElementById('guestBtn').onclick = proceedAsGuest;
 
+        // Attach click handler for custom Google button
+        document.addEventListener('DOMContentLoaded', function() {
+            const googleBtn = document.getElementById('googleSignInBtn');
+            if (googleBtn) {
+                googleBtn.onclick = function(e) {
+                    e.preventDefault();
+                    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                        google.accounts.id.prompt(function(notification) {
+                            // Optional: Handle cases where prompt is not displayed
+                            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                                console.log('Sign-in prompt was not displayed');
+                            }
+                        });
+                    } else {
+                        console.error('Google Identity Services not loaded yet');
+                    }
+                };
+            }
+        });
+
         function saveSuggestions() {
-            if (!isSignedIn) {
+            if (!isSignedIn || currentUser === 'guest') {
                 alert('Hey friend, sign in with Google to save your faves! 😊');
                 return;
             }
@@ -533,7 +532,7 @@
                 document.getElementById('results').style.display = 'block';
                 document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
 
-                if (isSignedIn) {
+                if (isSignedIn && currentUser !== 'guest') {
                     document.getElementById('saveBtn').style.display = 'block';
                 } else {
                     document.getElementById('saveBtn').style.display = 'none';
