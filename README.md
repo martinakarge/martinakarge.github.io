@@ -73,6 +73,21 @@
             margin: 20px auto;
             display: block;
         }
+        .g-signin2 .abcRioButton {
+            padding: 15px 30px !important;
+            font-size: 1.1em !important;
+            border-radius: 5px !important;
+            background-color: #87CEEB !important;
+            color: #0a0a2e !important;
+            border: none !important;
+            white-space: nowrap !important;
+            transition: background-color 0.3s !important;
+            margin: 10px !important;
+            display: inline-block !important;
+        }
+        .g-signin2 .abcRioButton:hover {
+            background-color: #5dade2 !important;
+        }
         #mainApp {
             display: none;
             margin-top: 80px;
@@ -80,7 +95,7 @@
         header {
             background-color: #87CEEB;
             color: #0a0a2e;
-            padding: 40px 20px;
+            padding: 54px 20px;
             margin-bottom: 30px;
             border-radius: 10px;
         }
