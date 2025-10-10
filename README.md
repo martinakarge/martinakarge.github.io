@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="992990668217-km90mi8ec514f68po4235lmkar57oeu1.apps.googleusercontent.com">
     <title>New In Town - Your Friendly Local Guide</title>
     <style>
         body {
