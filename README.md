@@ -170,13 +170,19 @@
             text-decoration: underline;
         }
         .user-info {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #87CEEB;
-            padding: 10px;
-            border-radius: 5px;
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            background: none;
+            padding: 0;
+            border-radius: 0;
             color: #0a0a2e;
+            font-size: 1.1em;
+            font-weight: bold;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .saved-msg {
             background: #d4edda;
@@ -219,8 +225,8 @@
 
 <div id="mainApp" style="display:none">
     <div id="userInfo" class="user-info" style="display:none">
-        <span id="userName"></span>
-        <button id="signOutBtn" style="margin-left:10px; background:#fff; color:#0a0a2e; border:1px solid #87CEEB; border-radius:4px; cursor:pointer;">Sign Out</button>
+    <span id="userName"></span>
+    <button id="signOutBtn" style="background:none; color:#0a0a2e; border:1px solid #87CEEB; border-radius:4px; cursor:pointer; padding:4px 10px; font-size:1em;">Sign Out</button>
     </div>
     <header>
         <h1>Welcome Back! 🌟</h1>
