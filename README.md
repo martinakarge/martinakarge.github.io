@@ -2,7 +2,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="992990668217-km90mi8ec514f68po4235lmkar57oeu1.apps.googleusercontent.com">
     <title>New In Town - Your Friendly Local Guide</title>
     <style>
         body {
@@ -68,25 +67,6 @@
         }
         .entry-btn:hover {
             background-color: #5dade2;
-        }
-        .g-signin2 {
-            margin: 20px auto;
-            display: block;
-        }
-        .g-signin2 .abcRioButton {
-            padding: 15px 30px !important;
-            font-size: 1.1em !important;
-            border-radius: 5px !important;
-            background-color: #87CEEB !important;
-            color: #0a0a2e !important;
-            border: none !important;
-            white-space: nowrap !important;
-            transition: background-color 0.3s !important;
-            margin: 10px !important;
-            display: inline-block !important;
-        }
-        .g-signin2 .abcRioButton:hover {
-            background-color: #5dade2 !important;
         }
         #mainApp {
             display: none;
@@ -216,7 +196,7 @@
     <div id="entryScreen">
         <h1>Welcome to NewInTown.io! 🌟</h1>
         <p>Ready to uncover local gems? Choose your way in – sign in to save your faves, or dive right in as a guest!</p>
-        <div class="g-signin2" data-onsuccess="onSignInAndProceed" data-theme="outline"></div>
+        <button id="googleSignInBtn" class="entry-btn" style="display: none;">Sign in with Google 😊</button>
         <br>
         <button id="guestBtn" class="entry-btn">Continue as Guest 😊</button>
     </div>
@@ -260,12 +240,35 @@
         </div>
     </div>
 
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=initGoogleSignIn" async defer></script>
     <script>
+        const GOOGLE_CLIENT_ID = '992990668217-km90mi8ec514f68po4235lmkar57oeu1.apps.googleusercontent.com';
         const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // Swap in your free key from console.cloud.google.com!
         let currentSuggestions = {};
         let isSignedIn = false;
         let currentUser = null;
+
+        function initGoogleSignIn() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: GOOGLE_CLIENT_ID
+                }).then(function() {
+                    const googleBtn = document.getElementById('googleSignInBtn');
+                    if (googleBtn) {
+                        googleBtn.style.display = 'inline-block';
+                        googleBtn.onclick = function(e) {
+                            e.preventDefault();
+                            var auth2 = gapi.auth2.getAuthInstance();
+                            auth2.signIn().then(onSignInAndProceed).catch(function(error) {
+                                console.error('Sign in error:', error);
+                            });
+                        };
+                    }
+                }).catch(function(error) {
+                    console.error('Auth2 init error:', error);
+                });
+            });
+        }
 
         function goHome() {
             if (isSignedIn) {
