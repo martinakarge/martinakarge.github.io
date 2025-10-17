@@ -74,17 +74,23 @@
             color: #FFF;
             border: none;
             border-radius: 5px;
-            font-size: 1
+            font-size: 1.1em;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+            margin: 10px;
+            display: inline-block;
+        }
         .entry-btn:hover {
-            background-color: #5dade2;
+            background-color: #E55A00;
         }
         #mainApp {
             display: none;
             margin-top: 80px;
         }
         header {
-            background-color: #87CEEB;
-            color: #0a0a2e;
+            background-color: #FFF;
+            color: #000;
             padding: 54px 20px;
             margin-bottom: 30px;
             border-radius: 10px;
@@ -96,12 +102,13 @@
         .subtitle {
             font-size: 1.2em;
             margin-top: 10px;
+            color: #333;
         }
         form {
-            background: #f8f9fa;
+            background: #FFF;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             max-width: 400px;
             margin: 0 auto;
             display: flex;
@@ -112,19 +119,19 @@
         input[type="text"] {
             flex: 1;
             padding: 12px;
-            border: 2px solid #87CEEB;
+            border: 2px solid #FF6B00;
             border-radius: 5px;
             font-size: 1.1em;
             text-align: center;
             min-width: 0;
         }
         input[type="text"]::placeholder {
-            color: #a0a0a0;
+            color: #999;
         }
         button {
             padding: 12px 20px;
-            background-color: #87CEEB;
-            color: #0a0a2e;
+            background-color: #FF6B00;
+            color: #FFF;
             border: none;
             border-radius: 5px;
             font-size: 1.1em;
@@ -133,7 +140,7 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #5dade2;
+            background-color: #E55A00;
         }
         #saveBtn {
             display: none;
@@ -144,25 +151,25 @@
             text-align: left;
             max-width: 600px;
             margin: 30px auto;
-            background: #f8f9fa;
+            background: #FFF;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             display: none;
         }
         .results h2 {
-            color: #87CEEB;
+            color: #FF6B00;
             text-align: center;
         }
         .rec {
-            background: white;
+            background: #FAFAFA;
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
-            border-left: 4px solid #87CEEB;
+            border-left: 4px solid #FF6B00;
         }
         .rec h3 {
-            color: #87CEEB;
+            color: #FF6B00;
             margin-top: 0;
         }
         .avoid h3 {
@@ -172,7 +179,7 @@
             border-left-color: #e74c3c;
         }
         .google-link {
-            color: #87CEEB;
+            color: #FF6B00;
             text-decoration: none;
             font-weight: bold;
         }
@@ -186,7 +193,7 @@
             background: none;
             padding: 0;
             border-radius: 0;
-            color: #0a0a2e;
+            color: #000;
             font-size: 1.1em;
             font-weight: bold;
             z-index: 1100;
@@ -214,6 +221,11 @@
 
 <div id="globalHeader">
     <a href="javascript:void(0)" onclick="goHome()">New in Town 🌟</a>
+    <div class="nav-links">
+        <!-- Added simple nav links inspired by reel.farm for a similar feel -->
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
 </div>
 
 <div id="entryScreen">
@@ -236,7 +248,7 @@
 <div id="mainApp" style="display:none">
     <div id="userInfo" class="user-info" style="display:none">
     <span id="userName"></span>
-    <button id="signOutBtn" style="background:none; color:#0a0a2e; border:1px solid #87CEEB; border-radius:4px; cursor:pointer; padding:4px 10px; font-size:1em;">Sign Out</button>
+    <button id="signOutBtn" style="background:none; color:#000; border:1px solid #FF6B00; border-radius:4px; cursor:pointer; padding:4px 10px; font-size:1em;">Sign Out</button>
     </div>
     <header>
         <h1>Welcome Back! 🌟</h1>
@@ -567,4 +579,3 @@
     </script>
 </body>
 </html>
-
