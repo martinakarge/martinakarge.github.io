@@ -291,7 +291,7 @@
 
         function handleCredentialResponse(response) {
             if (response && response.credential) {
-                const profile = jwt_decode(response.credential);
+                const profile = jwtDecode(response.credential); // Fixed: Use jwtDecode (camelCase) instead of jwt_decode
                 onSignIn(profile);
                 document.getElementById('entryScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
